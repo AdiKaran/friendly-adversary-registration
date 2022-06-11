@@ -1,0 +1,25 @@
+openapi: 3.0.0
+info:
+  title: "Friendly Adversary Registration API"
+  version: 1.0.0
+  description: ""
+servers:
+  - url: /api
+
+
+paths:
+  /status:
+    get:
+      summary: Test status endpoint
+      description: Test status endpoint
+      operationId: controllers.AdversaryController.check_status
+      responses:
+        200:
+          description: success
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: string
+        
