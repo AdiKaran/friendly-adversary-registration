@@ -130,6 +130,7 @@ components:
           properties: {}
       required:
         - ip_address
+        - name
     AdversaryObject:
       title: A friendly adversary
       type: object

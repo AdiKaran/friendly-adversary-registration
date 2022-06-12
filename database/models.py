@@ -15,6 +15,7 @@ class Adversary(db.Model):
         return {
             "id": self.id,
             "name": self.name,
+            "ip_address": self.ip_address,
             "email" : self.email,
             "planned_activity_json": self.planned_activity
         }

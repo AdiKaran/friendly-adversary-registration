@@ -8,12 +8,10 @@ def register_adversary(body):
     adversary = Adversary(
         name=body["name"],
         ip_address=body["ip_address"],
-        email=body["email"],
-        planned_activity=body["planned_activity_json"],
     )
     if "email" in body:
         adversary.email = body["email"]
-    if "planned_activity " in body:
+    if "planned_activity_json" in body:
         adversary.planned_activity = body["planned_activity_json"]
 
     db.session.add(adversary)
