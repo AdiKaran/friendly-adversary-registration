@@ -7,7 +7,7 @@ class Adversary(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     ip_address = db.Column(db.String, nullable=False)
-    name = db.Column(db.String, nullable=True)
+    name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=True)
     planned_activity = db.Column(JSON,nullable=True)
 

@@ -11,6 +11,11 @@ def register_adversary(body):
         email=body["email"],
         planned_activity=body["planned_activity_json"],
     )
+    if "email" in body:
+        adversary.email = body["email"]
+    if "planned_activity " in body:
+        adversary.planned_activity = body["planned_activity_json"]
+
     db.session.add(adversary)
     db.session.commit()
     return adversary.to_dict()
