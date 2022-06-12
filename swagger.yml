@@ -6,20 +6,156 @@ info:
 servers:
   - url: /api
 
-
 paths:
-  /status:
+  /adversary:
     get:
-      summary: Test status endpoint
-      description: Test status endpoint
-      operationId: controllers.AdversaryController.check_status
+      summary: List all adversaries
+      operationId: controllers.AdversaryController.list_adversaries
+      parameters:
+        - name: page
+          in: query
+          description: page of results
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          description: number of results per page
+          schema:
+            type: integer
+            default: 100
       responses:
         200:
           description: success
           content:
             application/json:
               schema:
+                type: object
                 properties:
-                  success:
-                    type: string
+                  pageInfo:
+                    $ref: '#/components/schemas/PageInfo'
+                  adversaries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdversaryObject'
+    post:
+      summary: Register a new adversary
+      operationId: controllers.AdversaryController.register_adversary
+      requestBody:
+        description: adversary information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdversaryRequest'
+      responses:
+        201:
+          description: Adversary registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdversaryObject'
+                
+  /adversary/{id}:
+    get:
+      summary: Retrieve a registered adversary
+      operationId: controllers.AdversaryController.get_adversary
+      parameters:
+        - name: id
+          in : path
+          description: id of the adversary to be retrieved
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successfully retrieved adversary information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdversaryObject'
+                
+    patch:
+      summary: Delete a registered adversary
+      operationId: controllers.AdversaryController.update_adversary
+      parameters:
+        - name: id
+          in : path
+          description: id of the adversary to be updated
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: New adversary name, email and ip address
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdversaryRequest'
+      responses:
+        200:
+          description: successfully updated adversary information
+          
+    delete:
+      summary: Delete a registered adversary
+      operationId: controllers.AdversaryController.delete_adversary
+      parameters:
+        - name: id
+          in : path
+          description: id of the adversary to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: successfully deleted adversary
+          content: {}
+  
+
+
+components:
+  schemas:
+    AdversaryRequest:
+      title: A friendly adversary
+      type: object
+      properties:
+        ip_address:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        planned_activity_json:
+          type: object
+          properties: {}
+      required:
+        - ip_address
+    AdversaryObject:
+      title: A friendly adversary
+      type: object
+      properties:
+        adversaryId:
+          type: integer
+        ip_address:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        planned_activity_json:
+          type: object
+          properties: {}
+      required:
+        - adversaryId
+        - ip_address
+    PageInfo:
+      title: Pagination information
+      type: object
+      properties:
+        page:
+          type: integer
+        pageSize:
+          type: integer
+        totalResults:
+          type: integer
         
